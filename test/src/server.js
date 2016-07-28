@@ -6,4 +6,4 @@ app.get('/', function(req, res) {
   res.send('Response'); // send text response
 });
 
-app.listen(8080);
+app.listen(6000);

@@ -13,7 +13,7 @@ define("odlPort",8181);
 define("path","/tsdr/metrics/query?tsdrkey=");
 define("pollInterval",60000);
 define("pollHistory",120);
-define("influxDBHost", "http://influxdb-admin-sdnorchestrator.apps.infosys.openshift3roadshow.com");
+define("influxDBHost", "http://influxdb-sdnorchestrator.apps.infosys.openshift3roadshow.com");
 define("influxDBPort",8080);
 define("influxDBwritePath","/write");
 define("pmStatsDB","pmstats");

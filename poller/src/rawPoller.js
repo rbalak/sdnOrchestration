@@ -1,5 +1,6 @@
 var http = require('http');
-var moment = require('moment-timezone');
+//var moment = require('moment-timezone');
+var moment = require('/home/rbalak/node/node_modules/moment-timezone/moment-timezone');
 var config = require("./config.js");
 var influxDb = require("./influxDbFunctions.js");
 var content = "";
@@ -71,6 +72,30 @@ var poll = function(id){
         });
 	rxReq.end();
 
+	
+	var mininetHost =  config.mininetHost;
+        var mininetPort = config.mininetPort;
+        var bwPath = config.mininetBwPath
+
+	var bwOptions = {
+                header: header,
+                host: mininetHost,
+                port: mininetPort,
+                path: bwPath,
+                method: 'GET'
+        };
+
+
+        //Make HTTP call & parse the response
+        var bwReq = http.request(bwOptions,function(res){
+                parseBWResponse(res);
+        });
+        bwReq.on('error', function(e) {
+                console.log('problem with request: ' + e.message);
+        });
+
+        bwReq.end();
+
 	//Repeat polling after waiting for polling interval
 	setTimeout(function() {
 		poll(id);	
@@ -105,6 +130,22 @@ var parseResponse = function(res){
 		influxDb.write(content);	
 	});
 }
+
+var parseBWResponse = function(res){
+	console.log(res.statusCode)
+        res.on('data', function (chunk) {
+		var data = JSON.parse(chunk);
+		var bandwidth = data.linkbandwidth;
+		console.log(bandwidth);
+		var metricName = "linkbandwidth";
+                var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
+                var metricValue = bandwidth;
+                var metricTimestamp = Math.floor(new Date());
+                var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
+		influxDb.write(content);
+	});
+}
+
 
 module.exports = 
 {

@@ -5,32 +5,100 @@ var run = function(){
 	
 	var rxBytesQuery = "SELECT MAX(value) FROM " + config.rxSeries 
 	+ "  WHERE time > now() - " +  config.metricCalculationHistory + "s"
-	+ " GROUP BY time(15s)";
+	+ " GROUP BY time(120s)";
 
         var txBytesQuery = "SELECT MAX(value) FROM " + config.txSeries
         + "  WHERE time > now() - " +  config.metricCalculationHistory + "s"
-        + " GROUP BY time(15s)"; 
+        + " GROUP BY time(120s)"; 
 	
-//	console.log(rxBytesQuery);
-//	console.log(txBytesQuery);
+	var bwQuery =  "SELECT MAX(value) FROM " + "linkbandwidth"
+        + "  WHERE time > now() - " +  config.metricCalculationHistory + "s"
+        + " GROUP BY time(120s)";
 
-	influxDb.read(rxBytesQuery, function(res){	
-		console.log(res.statusCode);
-		res.on("data", function(chunk){
-                	console.log("data:" + chunk);
+
+	var queries = [rxBytesQuery, txBytesQuery, bwQuery];
+	var completed_Request = 0;
+	var responses = [];
+
+	for (i in queries){
+		influxDb.read(queries[i], function(res){
+			res.on("data", function(chunk){
+				responses.push(chunk);
+				completed_Request++;
+				if (completed_Request==queries.length){
+					calculateMetric(responses);
+				} 
+			});
 		});
-	});
 
-        influxDb.read(txBytesQuery, function(res){
-                console.log(res.statusCode);
-                res.on("data", function(chunk){
-                        console.log("data:" + chunk);
-                });
-        });
+        }
 
 	setTimeout(function(){
                 run();
         },config.metricCalulationInterval);
+}
+
+var calculateMetric= function(responses){
+
+	console.log("calculating metric");
+	var linkBandwidth;
+	var txBytes;
+	var rxBytes;
+	for (i in responses){
+		var response =responses[i];
+		var data = JSON.parse(response); 
+		console.log(data);
+		if (data.results[0].hasOwnProperty('series')) {
+			if ((data.results[0].series[0].name)== "linkbandwidth"){
+				linkBandwidth = data.results[0].series[0].values
+			}
+			 if ((data.results[0].series[0].name)== "TransmittedBytes"){
+                        	txBytes  = data.results[0].series[0].values
+	                }	
+			 if ((data.results[0].series[0].name)== "ReceivedBytes"){
+                	        rxBytes  = data.results[0].series[0].values
+                	}
+		}
+	}
+
+	
+
+	if (typeof linkBandwidth  !== 'undefined' && linkBandwidth  &&
+	typeof txBytes  !== 'undefined' && txBytes &&	
+	typeof rxBytes  !== 'undefined' && rxBytes){
+
+		
+		if (txBytes[1][1] !== "null" &&
+		txBytes[0][1] !== "null" &&
+		rxBytes[0][1] !== "null" &&
+		rxBytes[1][1] != "null" &&
+		linkBandwidth[1][1] != "null") {
+		
+		
+			console.log("metric");
+			console.log(linkBandwidth);
+
+			var detltaTxBytes = txBytes[1][1] - txBytes[0][1];
+			var deltaRxBytes = rxBytes[1][1] - rxBytes[0][1];
+
+			var trafficUtil = (detltaTxBytes + detltaTxBytes)/(1024*1024)*120;
+			var trafficUtilPct = trafficUtil/linkBandwidth[1][1]*100;
+	
+		        var metricName = "trafficUtil";
+		        var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
+	        	var metricValue = trafficUtil;
+		        var metricTimestamp = txBytes[0][0]*1000
+		        var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
+        		influxDb.write(content);
+
+			metricName = "trafficUtilPct";
+		        metricTimestamp = txBytes[0][0]*1000
+        		metricValue = trafficUtilPct;
+		        content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
+			influxDb.write(content);
+		}
+	}
+
 }
 
 module.exports =

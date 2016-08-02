@@ -20,12 +20,10 @@ define("pmStatsDB","pmstats");
 define("influxDReadPath", "/query?pretty=true");
 define("precisionms",  "&precision=ms");
 define("metricCalulationInterval", 120000);
-define("metricCalculationHistory", 180);
+define("metricCalculationHistory",240);
 define("txSeries", "TransmittedBytes");
 define("rxSeries", "ReceivedBytes");
-//todo
-define("mininetHost", "");
-define("mininetPort", "");
-define("mininetBwPath", "");
-
+define("mininetHost", "192.168.231.102");
+define("mininetPort", "8182");
+define("mininetBwPath", "/linkbandwidth/s1-s2");
 

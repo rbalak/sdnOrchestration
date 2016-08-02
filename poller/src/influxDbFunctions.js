@@ -17,13 +17,13 @@ var write = function(content){
                         path: path,
                         method: 'POST'
                         };
-        console.log(header);
+        /*console.log(header);
         console.log(host);
         console.log(port);
         console.log(path);
-        console.log(content);
+        console.log(content);*/
         var req = http.request(options,function(res){
-                console.log(res.statusCode);
+                //console.log(res.statusCode);
         });
         req.write(content);
         req.end();
@@ -38,7 +38,7 @@ var read = function(query, callback){
         };
         var host = config.influxDBHost;
         var port = config.influxDBPort;
-        var path = config.influxDReadPath + "&db=" + config.pmStatsDB + "&q="+ encodeURIComponent(query);
+        var path = config.influxDReadPath + "&db=" + config.pmStatsDB + "&epoch=s" + "&q="+ encodeURIComponent(query);
         var options = {
                         header: header,
                         host: host,
@@ -46,10 +46,10 @@ var read = function(query, callback){
                         path: path,
                         method: 'GET'
                         };
-        console.log(header);
+        i/*console.log(header);
         console.log(host);
         console.log(port);
-        console.log(path);
+        console.log(path);*/
         var req = http.request(options,function(res){
 		callback(res);
 //              console.log(res.statusCode);

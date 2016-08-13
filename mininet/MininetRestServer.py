@@ -16,8 +16,8 @@ class MininetRestServer(Bottle):
         self.route('/links', method='GET', callback=self.get_links)
         self.route('/iperf/<hosts>', method='GET', callback=self.get_iperf)
         self.route('/linkbandwidth/<link_name>', method='GET', callback=self.get_link_bandwidth)
-        self.route('/traffic/<hosts>', method='GET', callback=self.generate_traffic)
-        self.route('/traffic/<hosts>/<file_name>', method='GET', callback=self.generate_traffic_using_files)
+        self.route('/traffic/<hosts>', method='PUT', callback=self.generate_traffic)
+        self.route('/traffic/<hosts>/<file_name>', method='PUT', callback=self.generate_traffic_using_files)
       
         
     def get_nodes(self):
@@ -99,15 +99,14 @@ class MininetRestServer(Bottle):
         str_host1, str_host2 = hosts.split("-")
         src = self.net[str_host1]
         dst = self.net[str_host2]
-        filepath = "/home/testFiles/rx.txt"
+        filepath = "/home/testfile"
 	filename = "testfile"
-	#port = random.randint(1024, 65535)
 	port =6666
-	dst_cmd = 'nc -l %d > /home/testFiles/%s.out' % (port, filename)
-    	print dst.popen( dst_cmd, shell=True )
+	dst_cmd = 'nc -l %d > /home/mininet/sent/%s.out' % (port, filename)
+    	dst.popen( dst_cmd, shell=True )
 	src_cmd = 'nc %s %s < %s' % (dst.IP(), port, filepath )
 	print "copying"
-	print src.popen( src_cmd, shell=True )
+	src.popen( src_cmd, shell=True )
 	return "OK"
 
     def generate_traffic_using_files(self, hosts, file_name):

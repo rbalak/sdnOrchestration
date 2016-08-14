@@ -109,8 +109,16 @@ var poll = function(id){
 }
 
 var parseResponse = function(res){
-	res.on('data', function (chunk) {
-		var data = JSON.parse(chunk);
+	
+	var responseData;
+	
+	response.on('data', function (chunk) {
+        console.log(chunk);
+        responseData += chunk;
+    });
+	
+	res.on('end', function (responseData) {
+		var data = JSON.parse(responseData);
 		console.log(data);
 		var metricRecords = data.metricRecords;
 		for(var i=0;i<metricRecords.length;i++){
@@ -138,16 +146,24 @@ var parseResponse = function(res){
 }
 
 var parseBWResponse = function(res){
+	
+	var responseData;
+	
+	response.on('data', function (chunk) {
+        console.log(chunk);
+        responseData += chunk;
+    });
+	
 	console.log(res.statusCode)
-        res.on('data', function (chunk) {
-		var data = JSON.parse(chunk);
+	res.on('end', function (responseData) {
+		var data = JSON.parse(responseData);
 		var bandwidth = data.linkbandwidth;
 		console.log(bandwidth);
 		var metricName = "linkbandwidth";
-                var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
-                var metricValue = bandwidth;
-                var metricTimestamp = Math.floor(new Date());
-                var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
+		var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
+		var metricValue = bandwidth;
+		var metricTimestamp = Math.floor(new Date());
+		var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
 		influxDb.write(content);
 	});
 }

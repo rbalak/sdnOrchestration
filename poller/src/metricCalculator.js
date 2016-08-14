@@ -22,8 +22,13 @@ var run = function(){
 
 	for (i in queries){
 		influxDb.read(queries[i], function(res){
-			res.on("data", function(chunk){
-				responses.push(chunk);
+			var responseData;
+			response.on('data', function (chunk) {
+				console.log(chunk);
+				responseData += chunk;
+			});
+			res.on("end", function(responseData){
+				responses.push(responseData);
 				completed_Request++;
 				if (completed_Request==queries.length){
 					calculateMetric(responses);

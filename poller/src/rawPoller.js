@@ -110,14 +110,14 @@ var poll = function(id){
 
 var parseResponse = function(res){
 	
-	var responseData;
+	var responseData = "";
 	
 	res.on('data', function (chunk) {
         console.log(chunk);
         responseData += chunk;
     });
 	
-	res.on('end', function (responseData) {
+	res.on('end', function () {
 		var data = JSON.parse(responseData);
 		console.log(data);
 		var metricRecords = data.metricRecords;
@@ -147,7 +147,7 @@ var parseResponse = function(res){
 
 var parseBWResponse = function(res){
 	
-	var responseData;
+	var responseData = "";
 	
 	res.on('data', function (chunk) {
         console.log(chunk);
@@ -155,7 +155,8 @@ var parseBWResponse = function(res){
     });
 	
 	console.log(res.statusCode)
-	res.on('end', function (responseData) {
+	
+	res.on('end', function () {
 		var data = JSON.parse(responseData);
 		var bandwidth = data.linkbandwidth;
 		console.log(bandwidth);

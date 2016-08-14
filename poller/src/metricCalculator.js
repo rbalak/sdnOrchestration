@@ -22,12 +22,12 @@ var run = function(){
 
 	for (i in queries){
 		influxDb.read(queries[i], function(res){
-			var responseData;
+			var responseData = "";
 			res.on('data', function (chunk) {
 				console.log(chunk);
 				responseData += chunk;
 			});
-			res.on("end", function(responseData){
+			res.on("end", function(){
 				responses.push(responseData);
 				completed_Request++;
 				if (completed_Request==queries.length){

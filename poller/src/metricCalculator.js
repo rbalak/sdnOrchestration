@@ -7,9 +7,9 @@ var run = function(){
 	+ "  WHERE time > now() - " +  config.metricCalculationHistory + "s"
 	+ " GROUP BY time(120s)";
 
-        var txBytesQuery = "SELECT MAX(value) FROM " + config.txSeries
-        + "  WHERE time > now() - " +  config.metricCalculationHistory + "s"
-        + " GROUP BY time(120s)"; 
+	var txBytesQuery = "SELECT MAX(value) FROM " + config.txSeries
+	+ "  WHERE time > now() - " +  config.metricCalculationHistory + "s"
+	+ " GROUP BY time(120s)"; 
 	
 	var bwQuery =  "SELECT MAX(value) FROM " + "linkbandwidth"
         + "  WHERE time > now() - " +  config.metricCalculationHistory + "s"
@@ -44,6 +44,7 @@ var calculateMetric= function(responses){
 	var linkBandwidth;
 	var txBytes;
 	var rxBytes;
+	
 	for (i in responses){
 		var response =responses[i];
 		var data = JSON.parse(response); 

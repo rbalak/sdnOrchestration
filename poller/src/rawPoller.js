@@ -50,11 +50,12 @@ var poll = function(id){
                 port: port,
                 path: rxTrafficpath,
                 method: 'GET'
-        };
+    };
 
 
 	//Make HTTP call & parse the response
 	var txReq = http.request(txOptions,function(res){
+		console.log("Parsing Response from ODL - TxBytes");
 		parseResponse(res);
 	});
 	txReq.on('error', function(e) {
@@ -64,12 +65,13 @@ var poll = function(id){
 	txReq.end();
 
 	//Make HTTP call & parse the response
-         var rxReq = http.request(rxOptions,function(res){
-                parseResponse(res);
-        });
+    var rxReq = http.request(rxOptions,function(res){
+		console.log("Parsing Response from ODL - RxBytes");
+        parseResponse(res);
+    });
 	rxReq.on('error', function(e) {
                 console.log('problem with request: ' + e.message);
-        });
+    });
 	rxReq.end();
 
 	
@@ -88,6 +90,7 @@ var poll = function(id){
 
         //Make HTTP call & parse the response
         var bwReq = http.request(bwOptions,function(res){
+				console.log("Parsing Response from Mininet - BW Information");
                 parseBWResponse(res);
         });
         bwReq.on('error', function(e) {

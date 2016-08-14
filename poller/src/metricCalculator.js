@@ -23,7 +23,7 @@ var run = function(){
 	for (i in queries){
 		influxDb.read(queries[i], function(res){
 			var responseData;
-			response.on('data', function (chunk) {
+			res.on('data', function (chunk) {
 				console.log(chunk);
 				responseData += chunk;
 			});

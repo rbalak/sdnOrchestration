@@ -111,6 +111,7 @@ var poll = function(id){
 var parseResponse = function(res){
 	res.on('data', function (chunk) {
 		var data = JSON.parse(chunk);
+		console.log(data);
 		var metricRecords = data.metricRecords;
 		for(var i=0;i<metricRecords.length;i++){
 			var metricRecord = metricRecords[i];

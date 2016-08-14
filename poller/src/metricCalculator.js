@@ -53,15 +53,15 @@ var calculateMetric= function(responses){
 	for (i in responses){
 		var response =responses[i];
 		var data = JSON.parse(response); 
-		//console.log(data);
+		console.log(data);
 		if (data.results[0].hasOwnProperty('series')) {
 			if ((data.results[0].series[0].name)== "linkbandwidth"){
 				linkBandwidth = data.results[0].series[0].values
 			}
-			 if ((data.results[0].series[0].name)== "TransmittedBytes"){
+			if ((data.results[0].series[0].name)== "TransmittedBytes"){
                         	txBytes  = data.results[0].series[0].values
 	                }	
-			 if ((data.results[0].series[0].name)== "ReceivedBytes"){
+			if ((data.results[0].series[0].name)== "ReceivedBytes"){
                 	        rxBytes  = data.results[0].series[0].values
                 	}
 		}
@@ -95,14 +95,14 @@ var calculateMetric= function(responses){
 			var metricValue = trafficUtil;
 			var metricTimestamp = txBytes[0][0]*1000
 			var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
-			//console.log(content);
+			console.log(content);
 			influxDb.write(content);
 
 			metricName = "trafficUtilPct";
 			metricTimestamp = txBytes[0][0]*1000
 			metricValue = trafficUtilPct;
 			content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
-			//console.log(content);
+			console.log(content);
 			influxDb.write(content);
 		}
 	}

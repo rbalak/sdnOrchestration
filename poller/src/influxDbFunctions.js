@@ -21,7 +21,7 @@ var write = function(content){
         console.log(host);
         console.log(port);
         console.log(path);*/
-        console.log(content);
+        //console.log(content);
         var req = http.request(options,function(res){
                 //console.log(res.statusCode);
         });

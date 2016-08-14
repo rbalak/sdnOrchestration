@@ -3,12 +3,16 @@ var influxDb = require("./influxDbFunctions.js");
 
 var run = function(){
 	
-	var utilQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 1800s and value >5";
+	var utilQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 1800s and value > "  + config.utilThreshold;
 	influxDb.read(utilQuery, function(res){
+		var responseData = "";
 		res.on("data", function(chunk){
-			data = JSON.parse(chunk);
+			responseData += chunk;
+		});
+		res.on("end", function(){
+			data = JSON.parse(responseData);
 			console.log(data);
-			if (data.results[0].series[0].values[0][1] > 3) {
+			if (data.results[0].series[0].values[0][1] > config.highUtilCount) {
 				var header = 
 				{ 
 					'content-type': 'application/json'
@@ -23,8 +27,8 @@ var run = function(){
 			                path: bwPath,
 			                method: 'PUT'
 			        };
-				//var bwReq = http.request(bwOptions);
-				//bwReq.end();
+				var bwReq = http.request(bwOptions);
+				bwReq.end();
 			}
 		});
 	});

@@ -52,6 +52,8 @@ var poll = function(id){
                 method: 'GET'
     };
 
+	console.log("TxPath = " + txTrafficpath);
+	console.log("RxPath = " + rxTrafficpath);
 
 	//Make HTTP call & parse the response
 	var txReq = http.request(txOptions,function(res){

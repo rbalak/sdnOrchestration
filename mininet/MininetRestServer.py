@@ -100,14 +100,14 @@ class MininetRestServer(Bottle):
         src = self.net[str_host1]
         dst = self.net[str_host2]
         filepath = "/home/testfile"
-	filename = "testfile"
-	port =6666
-	dst_cmd = 'nc -l %d > /home/mininet/sent/%s.out' % (port, filename)
+		filename = "testfile"
+		port =6666
+		dst_cmd = 'nc -l %d > /home/mininet/sent/%s.out' % (port, filename)
     	dst.popen( dst_cmd, shell=True )
-	src_cmd = 'nc %s %s < %s' % (dst.IP(), port, filepath )
-	print "copying"
-	src.popen( src_cmd, shell=True )
-	return "OK"
+		src_cmd = 'nc %s %s < %s' % (dst.IP(), port, filepath )
+		print "copying"
+		src.popen( src_cmd, shell=True )
+		return "OK"
 
     def generate_traffic_using_files(self, hosts, file_name):
         str_host1, str_host2 = hosts.split("-")

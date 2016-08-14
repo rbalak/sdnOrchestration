@@ -24,7 +24,7 @@ var run = function(){
 		influxDb.read(queries[i], function(res){
 			var responseData = "";
 			res.on('data', function (chunk) {
-				console.log(chunk);
+				//console.log(chunk);
 				responseData += chunk;
 			});
 			res.on("end", function(){
@@ -81,8 +81,8 @@ var calculateMetric= function(responses){
 		linkBandwidth[1][1] != "null") {
 		
 		
-			console.log("metric");
-			console.log(linkBandwidth);
+			//console.log("metric");
+			//console.log(linkBandwidth);
 
 			var detltaTxBytes = txBytes[1][1] - txBytes[0][1];
 			var deltaRxBytes = rxBytes[1][1] - rxBytes[0][1];
@@ -90,17 +90,19 @@ var calculateMetric= function(responses){
 			var trafficUtil = (detltaTxBytes + detltaTxBytes)/(1024*1024)*120;
 			var trafficUtilPct = trafficUtil/linkBandwidth[1][1]*100;
 	
-		        var metricName = "trafficUtil";
-		        var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
-	        	var metricValue = trafficUtil;
-		        var metricTimestamp = txBytes[0][0]*1000
-		        var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
-        		influxDb.write(content);
+			var metricName = "trafficUtil";
+			var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
+			var metricValue = trafficUtil;
+			var metricTimestamp = txBytes[0][0]*1000
+			var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
+			console.log(content);
+			influxDb.write(content);
 
 			metricName = "trafficUtilPct";
-		        metricTimestamp = txBytes[0][0]*1000
-        		metricValue = trafficUtilPct;
-		        content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
+			metricTimestamp = txBytes[0][0]*1000
+			metricValue = trafficUtilPct;
+			content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
+			console.log(content);
 			influxDb.write(content);
 		}
 	}

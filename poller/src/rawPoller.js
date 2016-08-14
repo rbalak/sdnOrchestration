@@ -52,12 +52,12 @@ var poll = function(id){
                 method: 'GET'
     };
 
-	console.log("TxPath = " + txTrafficpath);
-	console.log("RxPath = " + rxTrafficpath);
+	//console.log("TxPath = " + txTrafficpath);
+	//console.log("RxPath = " + rxTrafficpath);
 
 	//Make HTTP call & parse the response
 	var txReq = http.request(txOptions,function(res){
-		console.log("Parsing Response from ODL - TxBytes");
+		//console.log("Parsing Response from ODL - TxBytes");
 		parseResponse(res);
 	});
 	txReq.on('error', function(e) {
@@ -68,7 +68,7 @@ var poll = function(id){
 
 	//Make HTTP call & parse the response
     var rxReq = http.request(rxOptions,function(res){
-		console.log("Parsing Response from ODL - RxBytes");
+		//console.log("Parsing Response from ODL - RxBytes");
         parseResponse(res);
     });
 	rxReq.on('error', function(e) {
@@ -92,7 +92,7 @@ var poll = function(id){
 
         //Make HTTP call & parse the response
         var bwReq = http.request(bwOptions,function(res){
-				console.log("Parsing Response from Mininet - BW Information");
+				//console.log("Parsing Response from Mininet - BW Information");
                 parseBWResponse(res);
         });
         bwReq.on('error', function(e) {
@@ -113,13 +113,13 @@ var parseResponse = function(res){
 	var responseData = "";
 	
 	res.on('data', function (chunk) {
-        console.log(chunk);
+        //console.log(chunk);
         responseData += chunk;
     });
 	
 	res.on('end', function () {
 		var data = JSON.parse(responseData);
-		console.log(data);
+		//console.log(data);
 		var metricRecords = data.metricRecords;
 		for(var i=0;i<metricRecords.length;i++){
 			var metricRecord = metricRecords[i];
@@ -150,16 +150,16 @@ var parseBWResponse = function(res){
 	var responseData = "";
 	
 	res.on('data', function (chunk) {
-        console.log(chunk);
+        //console.log(chunk);
         responseData += chunk;
     });
 	
-	console.log(res.statusCode)
+	//console.log(res.statusCode)
 	
 	res.on('end', function () {
 		var data = JSON.parse(responseData);
 		var bandwidth = data.linkbandwidth;
-		console.log(bandwidth);
+		//console.log(bandwidth);
 		var metricName = "linkbandwidth";
 		var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
 		var metricValue = bandwidth;

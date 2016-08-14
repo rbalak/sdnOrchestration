@@ -20,8 +20,8 @@ var write = function(content){
         /*console.log(header);
         console.log(host);
         console.log(port);
-        console.log(path);
-        console.log(content);*/
+        console.log(path);*/
+        console.log(content);
         var req = http.request(options,function(res){
                 //console.log(res.statusCode);
         });

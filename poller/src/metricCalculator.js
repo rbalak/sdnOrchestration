@@ -87,7 +87,10 @@ var calculateMetric= function(responses){
 			var detltaTxBytes = txBytes[1][1] - txBytes[0][1];
 			var deltaRxBytes = rxBytes[1][1] - rxBytes[0][1];
 
-			var trafficUtil = (detltaTxBytes + detltaTxBytes)/(1024*1024)*120;
+			console.log(deltaTxBytes);
+			console.log(deltaRxBytes);
+			
+			var trafficUtil = (detltaTxBytes + detltaTxBytes)/((1024*1024)*120);
 			var trafficUtilPct = trafficUtil/linkBandwidth[1][1]*100;
 	
 			var metricName = "trafficUtil";

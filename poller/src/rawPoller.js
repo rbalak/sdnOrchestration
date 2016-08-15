@@ -141,6 +141,7 @@ var parseResponse = function(res){
 			}
 			content = content + metricName + "," + metricRecordKey + " value=" + metricValue + " " + metricTimestamp;
 		}
+		console.log(content);
 		influxDb.write(content);	
 	});
 }

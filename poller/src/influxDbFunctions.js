@@ -18,11 +18,11 @@ var write = function(content){
                         method: 'POST'
                         };
         var req = http.request(options,function(res){
-                console.log(res.statusCode);
+          //      console.log(res.statusCode);
         });
         req.write(content);
-		console.log(options);
-		console.log(content);
+		//console.log(options);
+		//console.log(content);
         req.end();
 }
 

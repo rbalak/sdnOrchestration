@@ -135,7 +135,7 @@ var parseResponse = function(res){
 			}
 			var metricValue = metricRecord.metricValue;
 			console.log(metricRecord.timeStamp);
-			var metricTimestamp = (moment(metricRecord.timeStamp,"ddd MMM DD HH:mm:ss z YYYY").valueOf());
+			var metricTimestamp = (moment(metricRecord.timeStamp,"ddd MMM DD HH:mm:ss z YYYY").valueOf()) + 19800000;
 			content = metricName + "," + metricRecordKey + " value=" + metricValue + " " + metricTimestamp;
 			influxDb.write(content);
 		}

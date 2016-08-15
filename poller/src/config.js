@@ -16,7 +16,7 @@ define("pollHistory",120);
 define("influxDBHost", "influxdbos-sdnorchestrator.apps.10.2.2.2.xip.io");
 define("influxDBPort",80);
 define("influxDBwritePath","/write");
-define("pmStatsDB","pmstats");
+define("pmStatsDB","pm_stats");
 define("influxDReadPath", "/query?pretty=true");
 define("precisionms",  "&precision=ms");
 define("metricCalulationInterval", 120000);

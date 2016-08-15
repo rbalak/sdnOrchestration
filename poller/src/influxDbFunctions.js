@@ -17,13 +17,8 @@ var write = function(content){
                         path: path,
                         method: 'POST'
                         };
-        /*console.log(header);
-        console.log(host);
-        console.log(port);
-        console.log(path);*/
-        //console.log(content);
         var req = http.request(options,function(res){
-                //console.log(res.statusCode);
+                console.log(res.statusCode);
         });
         req.write(content);
         req.end();
@@ -46,10 +41,7 @@ var read = function(query, callback){
                         path: path,
                         method: 'GET'
                         };
-        i/*console.log(header);
-        console.log(host);
-        console.log(port);
-        console.log(path);*/
+        
         var req = http.request(options,function(res){
 		callback(res);
 //              console.log(res.statusCode);

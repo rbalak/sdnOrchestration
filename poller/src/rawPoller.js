@@ -3,7 +3,6 @@ var moment = require('moment-timezone');
 //var moment = require('/home/rbalak/node/node_modules/moment-timezone/moment-timezone');
 var config = require("./config.js");
 var influxDb = require("./influxDbFunctions.js");
-var content = "";
 //Poll the 2 stats - transmitted and recieved bytes from ODL
 //Poll data for past 2 minutes
 //Check if data is already available in DB. if no, insert data into the InfluxDB.
@@ -119,7 +118,7 @@ var parseResponse = function(res){
 	
 	res.on('end', function () {
 		var data = JSON.parse(responseData);
-		//console.log(data);
+		var content;
 		var metricRecords = data.metricRecords;
 		for(var i=0;i<metricRecords.length;i++){
 			var metricRecord = metricRecords[i];
@@ -136,13 +135,11 @@ var parseResponse = function(res){
 			}
 			var metricValue = metricRecord.metricValue;
 			var metricTimestamp = (moment(metricRecord.timeStamp,"ddd MMM DD HH:mm:ss z YYYY").valueOf());
-			if (content != ""){
-				content=content+"\n";
-			}
-			content = content + metricName + "," + metricRecordKey + " value=" + metricValue + " " + metricTimestamp;
+			content = metricName + "," + metricRecordKey + " value=" + metricValue + " " + metricTimestamp;
+			influxDb.write(content);
 		}
 		//console.log(content);
-		influxDb.write(content);	
+			
 	});
 }
 

@@ -134,9 +134,10 @@ var parseResponse = function(res){
 				}
 			}
 			var metricValue = metricRecord.metricValue;
-			console.log(metricRecord.timeStamp);
+			//console.log(metricRecord.timeStamp);
 			var metricTimestamp = (moment(metricRecord.timeStamp,"ddd MMM DD HH:mm:ss z YYYY").valueOf()) + 19800000;
 			content = metricName + "," + metricRecordKey + " value=" + metricValue + " " + metricTimestamp;
+			console.log(content);
 			influxDb.write(content);
 		}
 		//console.log(content);

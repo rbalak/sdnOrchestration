@@ -21,6 +21,8 @@ var write = function(content){
                 console.log(res.statusCode);
         });
         req.write(content);
+		console.log(options);
+		console.log(content);
         req.end();
 }
 

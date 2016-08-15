@@ -45,15 +45,15 @@ var poll = function(id){
 
 	//Set optons for RXBytes polling
 	 var rxOptions = {
-                header: header,
-                host: host,
-                port: port,
-                path: rxTrafficpath,
-                method: 'GET'
+		header: header,
+		host: host,
+		port: port,
+		path: rxTrafficpath,
+		method: 'GET'
     };
 
-	//console.log("TxPath = " + txTrafficpath);
-	//console.log("RxPath = " + rxTrafficpath);
+	console.log("TxPath = " + txTrafficpath);
+	console.log("RxPath = " + rxTrafficpath);
 
 	//Make HTTP call & parse the response
 	var txReq = http.request(txOptions,function(res){

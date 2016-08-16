@@ -50,7 +50,7 @@ var run = function(){
 				};
 				var mininetHost =  config.mininetHost;
 			        var mininetPort = config.mininetPort;
-			        var bwDownath = config.mininetDownBwPath;
+			        var bwDownPath = config.mininetDownBwPath;
 				var bwOptions = {
 			                header: header,
 			                host: mininetHost,

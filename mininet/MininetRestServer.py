@@ -2,6 +2,7 @@
 from bottle import Bottle, request
 import time
 import random
+import sys
 from mininet.cli import CLI
 
 
@@ -11,8 +12,8 @@ class MininetRestServer(Bottle):
         super(MininetRestServer, self).__init__()
         self.net = net
         self.route('/nodes',method='GET', callback=self.get_nodes)
-        self.route('/linkbandwidth/up/<link_name>', method='PUT', callback=self.put_link_bandwidthup)
-        self.route('/linkbandwidth/down/<link_name>', method='PUT', callback=self.put_link_bandwidthdown)
+        self.route('/linkbandwidthup/<link_name>', method='PUT', callback=self.put_link_bandwidthup)
+        self.route('/linkbandwidthdown/<link_name>', method='PUT', callback=self.put_link_bandwidthdown)
         self.route('/nodes/<node_name>/<intf_name>',method='GET',callback=self.get_intf)
         self.route('/links', method='GET', callback=self.get_links)
         self.route('/iperf/<hosts>', method='GET', callback=self.get_iperf)
@@ -76,7 +77,7 @@ class MininetRestServer(Bottle):
                for key in link.intf1.params:
                    if key == 'bw':
                        intf1_bw = link.intf1.params[key]
-                       intf1_bw = intf1_bw+10
+                       intf1_bw = intf1_bw+1
                        intf_params={'bw':intf1_bw}
                        link.intf1.config(**intf_params)
                        link.intf1.params.update(intf_params)
@@ -84,12 +85,13 @@ class MininetRestServer(Bottle):
 	       for key in link.intf2.params:
                    if key == 'bw':
                        intf2_bw = link.intf2.params[key]
-                       intf2_bw = intf2_bw+10
-                       intf_params={'bw':intf1_bw}
+                       intf2_bw = intf2_bw+1
+                       intf_params={'bw':intf2_bw}
                        link.intf2.config(**intf_params)
                        link.intf2.params.update(intf_params)
                        break
 	       break
+	return "OK"
 
     def put_link_bandwidthdown(self, link_name):
         node1, node2 = link_name.split("-")
@@ -97,26 +99,27 @@ class MininetRestServer(Bottle):
             temp_node1=temp_link.intf1.node.name
             temp_node2=temp_link.intf2.node.name
             if ((str(temp_node1) == str(node2) and str(temp_node2) == str(node1)) or (str(temp_node1) == str(node1) and str(temp_node2) == str(node2))):
-                link=temp_link
-                for key in link.intf1.params:
-                    if key == 'bw':
-                        intf1_bw = link.intf1.params[key]
-                        intf1_bw = intf1_bw-10
-                        intf_params={'bw':intf1_bw}
-                        link.intf1.config(**intf_params)
-                        link.intf1.params.update(intf_params)
-                        break
-                for key in link.intf2.params:
-                    if key == 'bw':
-                        intf2_bw = link.intf2.params[key]
-                        intf2_bw = intf2_bw-10
-                        intf_params={'bw':intf1_bw}
-                        link.intf2.config(**intf_params)
-                        link.intf2.params.update(intf_params)
-                        break
-            break		   
+               link=temp_link
+               for key in link.intf1.params:
+                   if key == 'bw':
+                       intf1_bw = link.intf1.params[key]
+                       intf1_bw = intf1_bw-1
+                       intf_params={'bw':intf1_bw}
+                       link.intf1.config(**intf_params)
+                       link.intf1.params.update(intf_params)
+                       break
+	       for key in link.intf2.params:
+                   if key == 'bw':
+                       intf2_bw = link.intf2.params[key]
+                       intf2_bw = intf2_bw-1
+                       intf_params={'bw':intf2_bw}
+                       link.intf2.config(**intf_params)
+                       link.intf2.params.update(intf_params)
+                       break
+	       break
+	return "OK"
 			   
-			   
+		   
     def get_links(self):
 		return {'links': [dict(name=l.intf1.node.name + '-' + l.intf2.node.name,
                                node1=l.intf1.node.name, node2=l.intf2.node.name,

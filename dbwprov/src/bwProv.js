@@ -3,7 +3,7 @@ var influxDb = require("./influxDbFunctions.js");
 
 var run = function(){
 	
-	var utilHighQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 400s and value*2 > "  + config.utilHighThreshold;
+	var utilHighQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 400s and value > "  + config.utilHighThreshold;
 	influxDb.read(utilHighQuery, function(res){
 		var responseData = "";
 		res.on("data", function(chunk){
@@ -34,7 +34,7 @@ var run = function(){
 		});
 	});
 	
-	var utilLowQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 1800s and value/2 < "  + config.utilLowThreshold;
+	var utilLowQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 1800s and value < "  + config.utilLowThreshold;
 	influxDb.read(utilLowQuery, function(res){
 		var responseData = "";
 		res.on("data", function(chunk){

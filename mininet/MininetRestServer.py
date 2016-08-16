@@ -81,7 +81,7 @@ class MininetRestServer(Bottle):
                        link.intf1.config(**intf_params)
                        link.intf1.params.update(intf_params)
                        break
-               for key in link.intf2.params:
+	       for key in link.intf2.params:
                    if key == 'bw':
                        intf2_bw = link.intf2.params[key]
                        intf2_bw = intf2_bw+10
@@ -89,36 +89,36 @@ class MininetRestServer(Bottle):
                        link.intf2.config(**intf_params)
                        link.intf2.params.update(intf_params)
                        break
-               break
+	       break
 
-	def put_link_bandwidthdown(self, link_name):
+    def put_link_bandwidthdown(self, link_name):
         node1, node2 = link_name.split("-")
         for temp_link in self.net.links:
             temp_node1=temp_link.intf1.node.name
             temp_node2=temp_link.intf2.node.name
             if ((str(temp_node1) == str(node2) and str(temp_node2) == str(node1)) or (str(temp_node1) == str(node1) and str(temp_node2) == str(node2))):
-               link=temp_link
-               for key in link.intf1.params:
-                   if key == 'bw':
-                       intf1_bw = link.intf1.params[key]
-                       intf1_bw = intf1_bw-10
-                       intf_params={'bw':intf1_bw}
-                       link.intf1.config(**intf_params)
-                       link.intf1.params.update(intf_params)
-                       break
-               for key in link.intf2.params:
-                   if key == 'bw':
-                       intf2_bw = link.intf2.params[key]
-                       intf2_bw = intf2_bw-10
-                       intf_params={'bw':intf1_bw}
-                       link.intf2.config(**intf_params)
-                       link.intf2.params.update(intf_params)
-                       break
-               break		   
+                link=temp_link
+                for key in link.intf1.params:
+                    if key == 'bw':
+                        intf1_bw = link.intf1.params[key]
+                        intf1_bw = intf1_bw-10
+                        intf_params={'bw':intf1_bw}
+                        link.intf1.config(**intf_params)
+                        link.intf1.params.update(intf_params)
+                        break
+                for key in link.intf2.params:
+                    if key == 'bw':
+                        intf2_bw = link.intf2.params[key]
+                        intf2_bw = intf2_bw-10
+                        intf_params={'bw':intf1_bw}
+                        link.intf2.config(**intf_params)
+                        link.intf2.params.update(intf_params)
+                        break
+            break		   
 			   
 			   
     def get_links(self):
-        return {'links': [dict(name=l.intf1.node.name + '-' + l.intf2.node.name,
+		return {'links': [dict(name=l.intf1.node.name + '-' + l.intf2.node.name,
                                node1=l.intf1.node.name, node2=l.intf2.node.name,
                                intf1=l.intf1.name, intf2=l.intf2.name) for l in self.net.links]}
 
@@ -127,14 +127,14 @@ class MininetRestServer(Bottle):
         src = self.net[str_host1]
         dst = self.net[str_host2]
         filepath = "/home/testfile"
-		filename = "testfile"
-		port =6666
-		dst_cmd = 'nc -l %d > /home/mininet/sent/%s.out' % (port, filename)
+	filename = "testfile"
+	port =6666
+	dst_cmd = 'nc -l %d > /home/mininet/sent/%s.out' % (port, filename)
     	dst.popen( dst_cmd, shell=True )
-		src_cmd = 'nc %s %s < %s' % (dst.IP(), port, filepath )
-		print "copying"
-		src.popen( src_cmd, shell=True )
-		return "OK"
+	src_cmd = 'nc %s %s < %s' % (dst.IP(), port, filepath )
+	print "copying"
+	src.popen( src_cmd, shell=True )
+	return "OK"
 
     def generate_traffic_using_files(self, hosts, file_name):
         str_host1, str_host2 = hosts.split("-")

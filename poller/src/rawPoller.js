@@ -134,14 +134,12 @@ var parseResponse = function(res){
 				}
 			}
 			var metricValue = metricRecord.metricValue;
-			//console.log(metricRecord.timeStamp);
+			//We have problem with the time stamp and zone. Hardcoding substraction of 19800000ms 
 			var metricTimestamp = (moment(metricRecord.timeStamp,"ddd MMM DD HH:mm:ss z YYYY").valueOf()) - 19800000;
 			content = metricName + "," + metricRecordKey + " value=" + metricValue + " " + metricTimestamp;
 			console.log(content);
 			influxDb.write(content);
 		}
-		//console.log(content);
-			
 	});
 }
 
@@ -150,16 +148,14 @@ var parseBWResponse = function(res){
 	var responseData = "";
 	
 	res.on('data', function (chunk) {
-        //console.log(chunk);
-        responseData += chunk;
+            responseData += chunk;
     });
 	
-	//console.log(res.statusCode)
+	
 	
 	res.on('end', function () {
 		var data = JSON.parse(responseData);
 		var bandwidth = data.linkbandwidth;
-		//console.log(bandwidth);
 		var metricName = "linkbandwidth";
 		var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
 		var metricValue = bandwidth;

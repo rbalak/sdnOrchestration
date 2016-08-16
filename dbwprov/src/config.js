@@ -1,3 +1,5 @@
+//bwProv Configurations
+
 function define(name, value) {
 	Object.defineProperty(exports, name, {
 	        value:      value,
@@ -25,7 +27,9 @@ define("txSeries", "TransmittedBytes");
 define("rxSeries", "ReceivedBytes");
 define("mininetHost", "192.168.231.102");
 define("mininetPort", "8182");
-define("mininetBwPath", "/linkbandwidth/s1-s2");
-define("utilThreshold",80);
+define("mininetUpBwPath", "/linkbandwidth/up/s1-s2");
+define("mininetDownBwPath", "/linkbandwidth/down/s1-s2");
+define("utilHighThreshold",80);
+define("utilLowThreshold",50);
 define("highUtilCount",3);
-
+define("lowUtilCount",3);

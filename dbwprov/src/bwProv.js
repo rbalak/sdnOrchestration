@@ -31,7 +31,7 @@ var run = function(){
 								path: bwUpPath,
 								method: 'PUT'
 						};
-					console.log(bwoptions);
+					console.log(bwOptions);
 					var bwReq = http.request(bwOptions);
 					bwReq.end();
 				}
@@ -66,7 +66,7 @@ var run = function(){
 								path: bwDownPath,
 								method: 'PUT'
 						};
-					console.log(bwoptions);
+					console.log(bwOptions);
 					var bwReq = http.request(bwOptions);
 					bwReq.end();
 				}

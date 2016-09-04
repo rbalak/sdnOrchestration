@@ -20,8 +20,8 @@ var run = function(){
 						'content-type': 'application/json'
 					};
 					var mininetHost =  config.mininetHost;
-						var mininetPort = config.mininetPort;
-						var bwUpPath = config.mininetUpBwPath;
+					var mininetPort = config.mininetPort;
+					var bwUpPath = config.mininetUpBwPath;
 					var bwOptions = {
 								header: header,
 								host: mininetHost,
@@ -29,6 +29,7 @@ var run = function(){
 								path: bwUpPath,
 								method: 'PUT'
 						};
+					console.log(bwoptions);
 					var bwReq = http.request(bwOptions);
 					bwReq.end();
 				}
@@ -63,6 +64,7 @@ var run = function(){
 								path: bwDownPath,
 								method: 'PUT'
 						};
+					console.log(bwoptions);
 					var bwReq = http.request(bwOptions);
 					bwReq.end();
 				}

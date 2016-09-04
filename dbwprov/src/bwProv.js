@@ -13,7 +13,9 @@ var run = function(){
 			data = JSON.parse(responseData);
 			console.log(data);
 			if (data.results[0].hasOwnProperty('series')){
-
+				config.log(data.results[0].series[0]);
+				config.log(data.results[0].series[0].values);
+				config.log(data.results[0].series[0].values[0][1]);
 				if (data.results[0].series[0].values[0][1] >= config.highUtilCount) {
 					var header = 
 					{ 

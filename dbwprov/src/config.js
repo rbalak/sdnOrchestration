@@ -22,7 +22,7 @@ define("pmStatsDB","pm_stats");
 define("influxDReadPath", "/query?pretty=true");
 define("precisionms",  "&precision=ms");
 define("metricCalulationInterval", 120000);
-define("metricCalculationHistory",600s);
+define("metricCalculationHistory",600);
 define("txSeries", "TransmittedBytes");
 define("rxSeries", "ReceivedBytes");
 define("mininetHost", "192.168.231.102");

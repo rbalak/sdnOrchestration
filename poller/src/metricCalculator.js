@@ -87,12 +87,12 @@ var calculateMetric= function(responses){
 			var metricName = "trafficUtil";
 			var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
 			var metricValue = trafficUtil;
-			var metricTimestamp = txBytes[1][1]*1000
+			var metricTimestamp = txBytes[1][0]*1000
 			var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
 			influxDb.write(content);
 
 			metricName = "trafficUtilPct";
-			metricTimestamp = txBytes[1][1]*1000
+			metricTimestamp = txBytes[1][0]*1000
 			metricValue = trafficUtilPct;
 			content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
 			influxDb.write(content);

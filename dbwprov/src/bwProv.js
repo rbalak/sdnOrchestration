@@ -1,5 +1,7 @@
 var config = require("./config.js");
 var influxDb = require("./influxDbFunctions.js");
+var http = require('http');
+
 
 var run = function(){
 	

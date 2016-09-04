@@ -5,7 +5,7 @@ var http = require('http');
 
 var run = function(){
 	
-	var utilHighQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 500s and value >= "  + config.utilHighThreshold;
+	var utilHighQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 540s and value >= "  + config.utilHighThreshold;
 	influxDb.read(utilHighQuery, function(res){
 		var responseData = "";
 		res.on("data", function(chunk){
@@ -42,7 +42,7 @@ var run = function(){
 		});
 	});
 	
-	var utilLowQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 500s and value <= "  + config.utilLowThreshold;
+	var utilLowQuery = "SELECT count(value) FROM trafficUtilPct  WHERE time > now() - 540s and value <= "  + config.utilLowThreshold;
 	influxDb.read(utilLowQuery, function(res){
 		var responseData = "";
 		res.on("data", function(chunk){

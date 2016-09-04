@@ -12,23 +12,26 @@ var run = function(){
 		res.on("end", function(){
 			data = JSON.parse(responseData);
 			console.log(data);
-			if (data.results[0].series[0].values[0][1] > config.highUtilCount) {
-				var header = 
-				{ 
-					'content-type': 'application/json'
-				};
-				var mininetHost =  config.mininetHost;
-			        var mininetPort = config.mininetPort;
-			        var bwUpPath = config.mininetUpBwPath;
-				var bwOptions = {
-			                header: header,
-			                host: mininetHost,
-			                port: mininetPort,
-			                path: bwUpPath,
-			                method: 'PUT'
-			        };
-				var bwReq = http.request(bwOptions);
-				bwReq.end();
+			if (data.results[0].hasOwnProperty('series')){
+
+				if (data.results[0].series[0].values[0][1] >= config.highUtilCount) {
+					var header = 
+					{ 
+						'content-type': 'application/json'
+					};
+					var mininetHost =  config.mininetHost;
+						var mininetPort = config.mininetPort;
+						var bwUpPath = config.mininetUpBwPath;
+					var bwOptions = {
+								header: header,
+								host: mininetHost,
+								port: mininetPort,
+								path: bwUpPath,
+								method: 'PUT'
+						};
+					var bwReq = http.request(bwOptions);
+					bwReq.end();
+				}
 			}
 			
 		});
@@ -43,23 +46,26 @@ var run = function(){
 		res.on("end", function(){
 			data = JSON.parse(responseData);
 			console.log(data);
-			if (data.results[0].series[0].values[0][1] > config.lowUtilCount) {
-				var header = 
-				{ 
-					'content-type': 'application/json'
-				};
-				var mininetHost =  config.mininetHost;
-			        var mininetPort = config.mininetPort;
-			        var bwDownPath = config.mininetDownBwPath;
-				var bwOptions = {
-			                header: header,
-			                host: mininetHost,
-			                port: mininetPort,
-			                path: bwDownPath,
-			                method: 'PUT'
-			        };
-				var bwReq = http.request(bwOptions);
-				bwReq.end();
+			if (data.results[0].hasOwnProperty('series')){
+
+				if (data.results[0].series[0].values[0][1] > config.lowUtilCount) {
+					var header = 
+					{ 
+						'content-type': 'application/json'
+					};
+					var mininetHost =  config.mininetHost;
+						var mininetPort = config.mininetPort;
+						var bwDownPath = config.mininetDownBwPath;
+					var bwOptions = {
+								header: header,
+								host: mininetHost,
+								port: mininetPort,
+								path: bwDownPath,
+								method: 'PUT'
+						};
+					var bwReq = http.request(bwOptions);
+					bwReq.end();
+				}
 			}
 			
 		});

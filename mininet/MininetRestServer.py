@@ -12,8 +12,8 @@ class MininetRestServer(Bottle):
         super(MininetRestServer, self).__init__()
         self.net = net
         self.route('/nodes',method='GET', callback=self.get_nodes)
-        self.route('/linkbandwidthup/<link_name>', method='PUT', callback=self.put_link_bandwidthup)
-        self.route('/linkbandwidthdown/<link_name>', method='PUT', callback=self.put_link_bandwidthdown)
+        self.route('/linkbandwidthup/<link_name>/<bw>', method='PUT', callback=self.put_link_bandwidthup)
+        self.route('/linkbandwidthdown/<link_name>/<bw>', method='PUT', callback=self.put_link_bandwidthdown)
         self.route('/nodes/<node_name>/<intf_name>',method='GET',callback=self.get_intf)
         self.route('/links', method='GET', callback=self.get_links)
         self.route('/iperf/<hosts>', method='GET', callback=self.get_iperf)
@@ -67,7 +67,7 @@ class MininetRestServer(Bottle):
             linkbw=intf2_bw
         return {'linkbandwidth': linkbw}
     
-    def put_link_bandwidthup(self, link_name):
+    def put_link_bandwidthup(self, link_name, bw):
         node1, node2 = link_name.split("-")
         for temp_link in self.net.links:
             temp_node1=temp_link.intf1.node.name
@@ -77,7 +77,7 @@ class MininetRestServer(Bottle):
                for key in link.intf1.params:
                    if key == 'bw':
                        intf1_bw = link.intf1.params[key]
-                       intf1_bw = intf1_bw+1
+                       intf1_bw = intf1_bw+int(bw)
                        intf_params={'bw':intf1_bw}
                        link.intf1.config(**intf_params)
                        link.intf1.params.update(intf_params)
@@ -85,7 +85,7 @@ class MininetRestServer(Bottle):
 	       for key in link.intf2.params:
                    if key == 'bw':
                        intf2_bw = link.intf2.params[key]
-                       intf2_bw = intf2_bw+1
+                       intf2_bw = intf2_bw+int(bw)
                        intf_params={'bw':intf2_bw}
                        link.intf2.config(**intf_params)
                        link.intf2.params.update(intf_params)
@@ -93,7 +93,7 @@ class MininetRestServer(Bottle):
 	       break
 	return "OK"
 
-    def put_link_bandwidthdown(self, link_name):
+    def put_link_bandwidthdown(self, link_name, bw):
         node1, node2 = link_name.split("-")
         for temp_link in self.net.links:
             temp_node1=temp_link.intf1.node.name
@@ -103,7 +103,7 @@ class MininetRestServer(Bottle):
                for key in link.intf1.params:
                    if key == 'bw':
                        intf1_bw = link.intf1.params[key]
-                       intf1_bw = intf1_bw-1
+                       intf1_bw = intf1_bw-int(bw)
                        intf_params={'bw':intf1_bw}
                        link.intf1.config(**intf_params)
                        link.intf1.params.update(intf_params)
@@ -111,7 +111,7 @@ class MininetRestServer(Bottle):
 	       for key in link.intf2.params:
                    if key == 'bw':
                        intf2_bw = link.intf2.params[key]
-                       intf2_bw = intf2_bw-1
+                       intf2_bw = intf2_bw-int(bw)
                        intf_params={'bw':intf2_bw}
                        link.intf2.config(**intf_params)
                        link.intf2.params.update(intf_params)

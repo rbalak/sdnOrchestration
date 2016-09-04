@@ -24,7 +24,7 @@ class MininetLinearTopology():
 		self.net.stop()
 		
 	def update_bandwidth(self):
-		intf_params={'bw':1}
+		intf_params={'bw':100}
 		for link in self.net.links:
 			link.intf1.config(**intf_params)
 			link.intf1.params.update(intf_params)

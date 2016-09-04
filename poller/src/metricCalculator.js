@@ -81,18 +81,18 @@ var calculateMetric= function(responses){
 			var deltaTxBytes = txBytes[1][1] - txBytes[0][1];
 			var deltaRxBytes = rxBytes[1][1] - rxBytes[0][1];
 				
-			var trafficUtil = (deltaTxBytes + deltaRxBytes)/((1024*1024)*120);
+			var trafficUtil = (deltaTxBytes *8)/((1000*1000)*120);
 			var trafficUtilPct = trafficUtil/linkBandwidth[1][1]*100;
 	
 			var metricName = "trafficUtil";
 			var metricRecordKey = "Node=openflow:1,NodeConnector=openflow:1:2";
 			var metricValue = trafficUtil;
-			var metricTimestamp = txBytes[0][0]*1000
+			var metricTimestamp = txBytes[1][1]*1000
 			var content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
 			influxDb.write(content);
 
 			metricName = "trafficUtilPct";
-			metricTimestamp = txBytes[0][0]*1000
+			metricTimestamp = txBytes[1][1]*1000
 			metricValue = trafficUtilPct;
 			content =  metricName + "," + metricRecordKey +  " value=" + metricValue + " " + metricTimestamp;
 			influxDb.write(content);

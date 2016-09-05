@@ -52,8 +52,10 @@ var run = function(){
 			data = JSON.parse(responseData);
 			console.log(data);
 			if (data.results[0].hasOwnProperty('series')){
-
-				if (data.results[0].series[0].values[0][1] > config.lowUtilCount) {
+				console.log(data.results[0].series[0]);
+				console.log(data.results[0].series[0].values);
+				console.log(data.results[0].series[0].values[0][1]);
+				if (data.results[0].series[0].values[0][1] >= config.lowUtilCount) {
 					var header = 
 					{ 
 						'content-type': 'application/json'

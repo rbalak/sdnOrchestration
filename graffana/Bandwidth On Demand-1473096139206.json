@@ -130,7 +130,7 @@
               "groupBy": [
                 {
                   "params": [
-                    "1m"
+                    "2m"
                   ],
                   "type": "time"
                 },
@@ -210,10 +210,10 @@
           "error": false,
           "fill": 1,
           "grid": {
-            "threshold1": 50,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": 30,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)",
+            "threshold1": 75,
+            "threshold1Color": "rgba(216, 28, 27, 0.99)",
+            "threshold2": 40,
+            "threshold2Color": "rgba(218, 234, 112, 0.9)",
             "thresholdLine": true
           },
           "id": 1,
@@ -407,7 +407,7 @@
     "to": "now"
   },
   "timepicker": {
-    "nowDelay": "3m",
+    "nowDelay": "2m",
     "refresh_intervals": [
       "5s",
       "10s",
@@ -440,13 +440,13 @@
   },
   "refresh": "30s",
   "schemaVersion": 12,
-  "version": 4,
+  "version": 1,
   "links": [
     {
-      "type": "dashboards",
       "icon": "external link",
+      "includeVars": false,
       "tags": [],
-      "includeVars": false
+      "type": "dashboards"
     }
   ],
   "gnetId": null

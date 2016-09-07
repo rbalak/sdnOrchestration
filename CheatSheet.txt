@@ -1,0 +1,62 @@
+ODL
+
+./home/rbalak/distribution-karaf-0.4.0-Beryllium/bin/start clean
+./client -u karaf
+feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-all odl-tsdr-hsqldb-all
+
+
+tsdr:list portstats
+
+http://192.168.231.103:8181/index.html#/topology
+
+
+
+
+Mininet
+
+sudo mn --topo linear,3 --mac --controller=remote,ip=192.168.231.103,port=6633 --switch ovs,protocols=OpenFlow13
+Pingall
+
+
+Orchestrator
+
+
+
+InfluxDB
+
+sudo docker run -d -p 18083:8083 -p 18086:8086 -v /home/rbalak/influxdb:/var/lib/influxdb --name pmstats influxdb
+
+
+sudo docker exec -it pmstats bin/bash
+influxDB
+CREATE DATABASE pmstats
+
+
+docker run -v   [image-name]
+
+http://influxdbos-sdnorchestrator.apps.10.2.2.2.xip.io:80
+
+a
+
+• $ wget https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.4.0-Beryllium/distribution-karaf-0.4.0-Beryllium.tar.gz
+• $ tar -xvf distribution-karaf-0.4.0-Beryllium.tar.gz
+sudo apt-get update
+$ sudo apt-get install default-jre-headless
+$ cd /home/rbalak/distribution-karaf-0.4.0-Beryllium/bin
+$vi setenv
+Add below lines to the end:
+
+sudo apt-get update
+$ sudo apt-get install default-jre-headless
+$ cd /home/rbalak/distribution-karaf-0.4.0-Beryllium/bin
+$vi setenv
+Add below lines to the end:
+odl-tsdr-hsqldb-all
+feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-all
+feature:install odl-tsdr-hsqldb-all
+feature:list --installed
+
+
+
+
+
